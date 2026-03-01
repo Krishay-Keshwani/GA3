@@ -1,0 +1,43 @@
+name: DevSync Daily Automator
+
+on:
+  # 1. The Schedule (Runs once a day at 14:30 UTC / 2:30 PM UTC)
+  # You can change the 30 (minute) and 14 (hour) to whatever you want!
+  schedule:
+    - cron: '30 14 * * *' 
+  
+  # 2. The Manual Button (So you can test it RIGHT NOW for your grade)
+  workflow_dispatch:
+
+# Give the robot permission to push code back to the repository
+permissions:
+  contents: write
+
+jobs:
+  daily_commit_job:
+    runs-on: ubuntu-latest # The robot will use a temporary Linux computer
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4 # This downloads your code to the robot's computer
+
+      - name: Make a daily change
+        run: |
+          # This creates or updates a file called update_log.txt with the current date
+          echo "Automated run completed on $(date)" >> update_log.txt
+
+      # THIS IS THE REQUIRED STEP FOR YOUR ASSIGNMENT!
+      - name: Commit changes by 22f2001107@ds.study.iitm.ac.in
+        run: |
+          # 1. Tell Git who is making the change
+          git config --global user.name "DevSync Bot"
+          git config --global user.email "22f2001107@ds.study.iitm.ac.in"
+          
+          # 2. Add the changed file
+          git add update_log.txt
+          
+          # 3. Commit the file (only if there are changes)
+          git commit -m "Automated daily activity update" || echo "No changes to commit"
+          
+          # 4. Push the code back to your GitHub repo
+          git push
