@@ -1,0 +1,15 @@
+name: CI Test
+
+# This tells the robot WHEN to run
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch: # This is a magic keyword that gives you a manual "Run" button!
+
+# This tells the robot WHAT to do
+jobs:
+  test-my-code:
+    runs-on: ubuntu-latest
+    steps:
+      - name: A simple test
+        run: echo "Hello! The workflow is working perfectly."
